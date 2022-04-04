@@ -77,7 +77,7 @@ const userController = {
       });
   },
 
-  // Add friend by Id
+  // Add friend
   addFriend({ params }, res) {
     User.findOneAndUpdate(
       { _id: params.id },
