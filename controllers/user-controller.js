@@ -45,9 +45,12 @@ const userController = {
       });
   },
 
-  // Update user by id
+  // Update user
   updateUser({ params, body }, res) {
-    User.findOneAndUpdate({ _id: params.id }, body, { new: true })
+    User.findOneAndUpdate({ _id: params.id }, body, {
+      new: true,
+      runValidators: true,
+    })
       .then((dbUserData) => {
         if (!dbUserData) {
           res.status(404).json({ message: "No User exists with this Id." });

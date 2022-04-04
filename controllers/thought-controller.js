@@ -56,9 +56,12 @@ const thoughtController = {
 
   // Update thought by id
   updateThought({ params, body }, res) {
-    Thought.findOneAndUpdate({ _id: params.id }, body, { new: true })
-      // .populate({ path: "thought", select: "-__v" })
-      // .select("-___v")
+    Thought.findOneAndUpdate({ _id: params.id }, body, {
+      new: true,
+      runValidators: true,
+    })
+      .populate({ path: "reaction", select: "-__v" })
+      .select("-___v")
       .then((dbThoughtData) => {
         if (!dbThoughtData) {
           res.status(404).json({ message: "No Thought exists with this Id." });
@@ -90,7 +93,7 @@ const thoughtController = {
     Thought.findOneAndUpdate(
       { _id: params.id },
       { $push: { reaction: params.reactionId } },
-      { new: true }
+      { new: true, runValidators: true }
     )
       .populate({ path: "reaction", select: "-__v" })
       .select("-__v")
