@@ -53,7 +53,7 @@ const thoughtSchema = new Schema(
       type: String,
       required: true,
     },
-    reactions: [
+    reaction: [
       {
         type: Schema.Types.ObjectId,
         ref: "Reaction",
@@ -70,7 +70,7 @@ const thoughtSchema = new Schema(
 );
 
 thoughtSchema.virtual("reactionCount").get(() => {
-  return this.reactions.length;
+  return this.reaction.length;
 });
 
 const Thought = model("Thought", thoughtSchema);
