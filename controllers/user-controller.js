@@ -66,7 +66,7 @@ const userController = {
     User.findOneAndDelete({ _id: params.id })
       .then((dbUserData) => {
         if (!dbUserData) {
-          res.status(404).json({ message: "No User exists with this Id." });
+          res.status(404).json({ message: "User deleted." });
           return;
         }
         res.json(dbUserData);
@@ -110,7 +110,7 @@ const userController = {
       .select("-__v")
       .then((dbUserData) => {
         if (!dbUserData) {
-          res.status(404).json({ message: "No User exists with this Id." });
+          res.status(404).json({ message: "Friend deleted." });
           return;
         }
         res.json(dbUserData);

@@ -77,7 +77,7 @@ const thoughtController = {
     Thought.findOneAndDelete({ _id: params.id })
       .then((dbThoughtData) => {
         if (!dbThoughtData) {
-          res.status(404).json({ message: "No Thoughts exist with this Id." });
+          res.status(404).json({ message: "Thought deleted." });
           return;
         }
         res.json(dbThoughtData);
@@ -113,7 +113,7 @@ const thoughtController = {
     )
       .then((dbThoughtData) => {
         if (!dbThoughtData) {
-          res.status(404).json({ message: "No Thoughts exist with this Id." });
+          res.status(404).json({ message: "Reaction deleted." });
           return;
         }
         res.json(dbThoughtData);
