@@ -27,7 +27,7 @@ An API for a social web app. Users can share thoughts, create a friends list and
 
 ## Installation
 
-Be sure to have Node.js installed. To install dependencies, run the following command: npm install express mongoose
+Be sure to have Node.js installed: npm install. To install dependencies, run the following command: npm install express mongoose
 
 ## Usage
 
