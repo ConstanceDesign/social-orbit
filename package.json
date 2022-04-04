@@ -1,7 +1,7 @@
 {
   "name": "social",
   "version": "1.0.0",
-  "description": "",
+  "description": "An API for a social web app. Users can share thoughts, create a friends list and react to friends/users thoughts.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -10,7 +10,7 @@
     "type": "git",
     "url": "git+https://github.com/SnugglesMcGee/social.git"
   },
-  "author": "",
+  "author": "Constance Mitchell",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/SnugglesMcGee/social/issues"
