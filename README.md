@@ -47,7 +47,7 @@ This app is open to contributions. Open up an Issue with suggested improvements 
 
 ## Testing
 
-To run tests, get the source code at git clone https://github.com/SnugglesMcGee/social and install dependencies. Test routes in Insomnia.
+To run tests, get the source code at git clone https://github.com/SnugglesMcGee/social-orbit and install dependencies. Test routes in Insomnia.
 
 ## Visuals
 
@@ -66,4 +66,4 @@ tbd
 - Date: April 3, 2022
 - Author: Constance Mitchell
 - Email: [info@constance.design](mailto:user@example.com)
-- Acknowledgements: Many thanks always to UofT Coding Bootcamp instructor Gabe Perry and TA's Estiven Salazar and Ishmael Lopez
+- Acknowledgements: Many thanks always to UofT Coding Bootcamp instructor Gabe Perry, TA's Estiven Salazar and Ishmael Lopez, and BC Thomas White.
