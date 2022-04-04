@@ -14,7 +14,7 @@ const userController = {
   },
 
   // Get all users
-  getAllUser(req, res) {
+  getAllUser(res) {
     User.find({})
       .populate({ path: "thought", select: "-__v" })
       .populate({ path: "friend", select: "-__v" })
