@@ -10,8 +10,6 @@ app.use(express.json());
 
 app.use(routes);
 
-mongoose.set("debug", true);
-
 db.once("open", () => {
   app.listen(PORT, () => {
     console.log(`API Listening on PORT: ${PORT}`);
