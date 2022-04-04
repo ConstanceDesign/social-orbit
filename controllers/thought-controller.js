@@ -2,12 +2,13 @@ const { Thought, User } = require("../models");
 
 const thoughtController = {
   // Create thought
-  createThought(req, res) {
-    Thought.create(req.body)
-      .then(({ _id, username }) => {
+  createThought({ params, body }, res) {
+    console.log(body);
+    Thought.create(body)
+      .then(({ _id }) => {
         return User.findOneAndUpdate(
-          { _id: username },
-          { $push: { thoughts: _id } },
+          { _id: params.userId },
+          { $push: { thought: _id } },
           { new: true }
         );
       })
@@ -74,18 +75,26 @@ const thoughtController = {
 
   // Delete thought
   deleteThought({ params }, res) {
-    Thought.findOneAndDelete({ _id: params.id })
+    Thought.findOneAndDelete({ _id: params.thoughId })
       .then((dbThoughtData) => {
         if (!dbThoughtData) {
           res.status(404).json({ message: "Thought deleted." });
           return;
         }
-        res.json(dbThoughtData);
+        return User.findOneAndUpdate(
+          { _id: params.userId },
+          { $pull: { thought: params.thoughtId } },
+          { new: true }
+        );
       })
-      .catch((err) => {
-        console.log(err);
-        res.status(400).json(err);
-      });
+      .then((dbUserData) => {
+        if (!dbUserData) {
+          res.status(404).json({ message: "No user found with this id." });
+          return;
+        }
+        res.json(dbPizzaData);
+      })
+      .catch((err) => res.json(err));
   },
 
   // Add reaction
