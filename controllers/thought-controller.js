@@ -22,23 +22,31 @@ const thoughtController = {
   },
 
   // Get all Thoughts
-  getAllThought(req, res) {
+  getThought(req, res) {
     Thought.find({})
-      .populate({ path: "thought", select: "-__v" })
-      .select("-__v")
-      .sort({ _id: -1 })
       .then((dbThoughtData) => res.json(dbThoughtData))
       .catch((err) => {
         console.log(err);
-        res.status(400).json(err);
+        res.sendStatus(400);
       });
   },
+  // getAllThought(req, res) {
+  //   Thought.find({})
+  //     .populate({ path: "thought", select: "-__v" })
+  //     .select("-__v")
+  //     .sort({ _id: -1 })
+  //     .then((dbThoughtData) => res.json(dbThoughtData))
+  //     .catch((err) => {
+  //       console.log(err);
+  //       res.status(400).json(err);
+  //     });
+  // },
 
   // Get thought by Id
   getThoughtById({ params }, res) {
     Thought.findOne({ _id: params.id })
       .populate({
-        path: "reaction",
+        path: "reactions",
         select: "__v",
       })
       .sort({ _id: -1 })
@@ -48,6 +56,19 @@ const thoughtController = {
         res.sendStatus(400);
       });
   },
+  // getThoughtById({ params }, res) {
+  //   Thought.findOne({ _id: params.id })
+  //     .populate({
+  //       path: "reaction",
+  //       select: "__v",
+  //     })
+  //     .sort({ _id: -1 })
+  //     .then((dbThoughtData) => res.json(dbThoughtData))
+  //     .catch((err) => {
+  //       console.log(err);
+  //       res.sendStatus(400);
+  //     });
+  // },
 
   // Update thought
   updateThought({ params, body }, res) {
