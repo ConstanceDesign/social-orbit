@@ -37,7 +37,7 @@ const thoughtController = {
   getThoughtById({ params }, res) {
     Thought.findOne({ _id: params.id })
       .populate({
-        path: "reactions",
+        path: "reaction",
         select: "__v",
       })
       .sort({ _id: -1 })
