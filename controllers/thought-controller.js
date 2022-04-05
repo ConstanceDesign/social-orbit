@@ -3,11 +3,11 @@ const { Thought, User } = require("../models");
 const thoughtController = {
   // Create thought
   createThought({ params, body }, res) {
-    console.log(body);
+    // console.log(body);
     Thought.create(body)
-      .then(({ _id }) => {
+      .then(({ _id, username }) => {
         return User.findOneAndUpdate(
-          { _id: params.userId },
+          { _id: username },
           { $push: { thought: _id } },
           { new: true }
         );
@@ -92,7 +92,7 @@ const thoughtController = {
           res.status(404).json({ message: "No user found with this id." });
           return;
         }
-        res.json(dbPizzaData);
+        res.json(dbUserData);
       })
       .catch((err) => res.json(err));
   },
