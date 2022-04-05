@@ -36,8 +36,8 @@ const thoughtController = {
   // Get thought by Id
   getThoughtById({ params }, res) {
     Thought.findOne({ _id: params.id })
-      .populate({ path: "reaction", select: "-__v" })
-      .select("-__v")
+      .populate({ path: "reaction", select: "__v" })
+      .sort({ _id: -1 })
       .then((dbThoughtData) => {
         if (!dbThoughtData) {
           res.status(404).json({ message: "No Thought exists with this Id." });
@@ -51,14 +51,14 @@ const thoughtController = {
       });
   },
 
-  // Update thought by id
+  // Update thought
   updateThought({ params, body }, res) {
     Thought.findOneAndUpdate({ _id: params.id }, body, {
       new: true,
       runValidators: true,
     })
-      // .populate({ path: "reaction", select: "-__v" })
-      // .select("-___v")
+      .populate({ path: "reaction", select: "__v" })
+      // .select("__v")
       .then((dbThoughtData) => {
         if (!dbThoughtData) {
           res.status(404).json({ message: "No Thought exists with this Id." });
