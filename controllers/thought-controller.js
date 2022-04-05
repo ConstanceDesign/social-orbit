@@ -3,7 +3,7 @@ const { Thought, User } = require("../models");
 const thoughtController = {
   // Create thought
   createThought({ params, body }, res) {
-    // console.log(body);
+    console.log(body);
     Thought.create(body)
       .then(({ _id }) => {
         return User.findOneAndUpdate(
