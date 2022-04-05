@@ -1,31 +1,6 @@
 const { Thought, User } = require("../models");
 
 const thoughtController = {
-  // Get all thoughts
-  getThought(req, res) {
-    Thought.find({})
-      .then((dbThoughtData) => res.json(dbThoughtData))
-      .catch((err) => {
-        console.log(err);
-        res.sendStatus(400);
-      });
-  },
-
-  // Get thought by Id
-  getThoughtById({ params }, res) {
-    Thought.findOne({ _id: params.id })
-      .populate({
-        path: "reaction",
-        select: "__v",
-      })
-      .sort({ _id: -1 })
-      .then((dbThoughtData) => res.json(dbThoughtData))
-      .catch((err) => {
-        console.log(err);
-        res.sendStatus(400);
-      });
-  },
-
   // Create thought
   createThought({ params, body }, res) {
     Thought.create(body)
