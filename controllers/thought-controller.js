@@ -83,7 +83,7 @@ const thoughtController = {
 
   // Add reaction
   addReaction({ params, body }, res) {
-    Comment.findOneAndUpdate(
+    Thought.findOneAndUpdate(
       { _id: params.thoughtId },
       { $push: { reaction: body } },
       { new: true, runValidators: true }
