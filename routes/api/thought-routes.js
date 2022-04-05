@@ -22,11 +22,11 @@ router
 // POST at /api/thought/user/:id
 router.route("/:userId").post(createThought);
 
-// POST at /api/thought/:thoughtId/reaction
-router.route("/:thoughtId/reaction").post(addReaction);
+// POST at /api/thought/:thoughtId/reactions
+router.route("/:thoughtId/reactions").post(addReaction);
 
-// DELETE at /:thoughtId/reaction/reactionId
-router.route("/:thoughtId/reaction/:reactionId").delete(deleteReaction);
+// DELETE at /:thoughtId/reactions/reactionId
+router.route("/:thoughtId/reactions/:reactionId").delete(deleteReaction);
 // router.route("/:id/:reactionId").delete(deleteReaction);
 
 module.exports = router;

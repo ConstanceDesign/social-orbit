@@ -8,7 +8,7 @@ const reactionSchema = new Schema(
       type: Schema.Types.ObjectId,
       default: () => new Types.ObjectId(),
     },
-    reaction: {
+    reactions: {
       type: String,
       required: true,
       maxLength: 280,
@@ -51,7 +51,7 @@ const thoughtSchema = new Schema(
       type: String,
       required: true,
     },
-    reaction: [reactionSchema],
+    reactions: [reactionSchema],
   },
   {
     toJSON: {
@@ -65,7 +65,7 @@ const thoughtSchema = new Schema(
 );
 
 thoughtSchema.virtual("reactionCount").get(function () {
-  return this.reaction.length || "No reaction found.";
+  return this.reactions.length || "No reaction found.";
 });
 
 const Thought = model("Thought", thoughtSchema);
