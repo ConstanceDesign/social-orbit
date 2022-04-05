@@ -4,9 +4,9 @@ const thoughtController = {
   // Create thought
   createThought(req, res) {
     Thought.create(body)
-      .then(({ _id, userId }) => {
+      .then(({ _id, username }) => {
         return User.findOneAndUpdate(
-          { _id: userId },
+          { _id: username },
           { $push: { thought: _id } },
           { new: true }
         );
@@ -40,12 +40,11 @@ const thoughtController = {
     Thought.findOne({ _id: params.id })
       .populate({ path: "reaction", select: "-__v" })
       .sort({ _id: -1 })
-      .then((dbThoughtData) =>
-        res.json(dbThoughtData).catch((err) => {
-          console.log(err);
-          res.sendStatus(400);
-        })
-      );
+      .then((dbThoughtData) => res.json(dbThoughtData))
+      .catch((err) => {
+        console.log(err);
+        res.sendStatus(400);
+      });
   },
 
   // Update thought by id
