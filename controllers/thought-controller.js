@@ -36,15 +36,12 @@ const thoughtController = {
   // Get thought by Id
   getThoughtById({ params }, res) {
     Thought.findOne({ _id: params.id })
-      .populate({ path: "reaction", select: "__v" })
-      .sort({ _id: -1 })
-      .then((dbThoughtData) => {
-        if (!dbThoughtData) {
-          res.status(404).json({ message: "No Thought exists with this Id." });
-          return;
-        }
-        res.json(dbThoughtData);
+      .populate({
+        path: "reactions",
+        select: "__v",
       })
+      .sort({ _id: -1 })
+      .then((dbThoughtData) => res.json(dbThoughtData))
       .catch((err) => {
         console.log(err);
         res.sendStatus(400);
