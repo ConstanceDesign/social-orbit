@@ -24,12 +24,12 @@ const thoughtController = {
   // Get all Thoughts
   getAllThought(req, res) {
     Thought.find({})
-      .populate({ path: "reaction", select: "-__v" })
-      .select("-__v")
+      // .populate({ path: "reaction", select: "-__v" })
+      // .select("-__v")
       .then((dbThoughtData) => res.json(dbThoughtData))
       .catch((err) => {
         console.log(err);
-        res.status(500).json(err);
+        res.status(400).json(err);
       });
   },
 
