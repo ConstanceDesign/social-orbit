@@ -1,6 +1,31 @@
 const { Thought, User } = require("../models");
 
 const thoughtController = {
+  // Get all thoughts
+  getThought(req, res) {
+    Thought.find({})
+      .then((dbThoughtData) => res.json(dbThoughtData))
+      .catch((err) => {
+        console.log(err);
+        res.sendStatus(400);
+      });
+  },
+
+  // Get thought by Id
+  getThoughtById({ params }, res) {
+    Thought.findOne({ _id: params.id })
+      .populate({
+        path: "reaction",
+        select: "__v",
+      })
+      .sort({ _id: -1 })
+      .then((dbThoughtData) => res.json(dbThoughtData))
+      .catch((err) => {
+        console.log(err);
+        res.sendStatus(400);
+      });
+  },
+
   // Create thought
   createThought({ params, body }, res) {
     Thought.create(body)
@@ -19,33 +44,6 @@ const thoughtController = {
         res.json(dbThoughtData);
       })
       .catch((err) => res.json(err));
-  },
-
-  // Get all Thoughts
-  getAllThought(req, res) {
-    Thought.find({})
-      .populate({ path: "reaction", select: "-__v" })
-      .select("-__v")
-      .then((dbThoughtData) => res.json(dbThoughtData))
-      .catch((err) => {
-        console.log(err);
-        res.status(400).json(err);
-      });
-  },
-
-  // Get thought by Id
-  getThoughtById({ params }, res) {
-    Thought.findOne({ _id: params.id })
-      .populate({
-        path: "reaction",
-        select: "__v",
-      })
-      .sort({ _id: -1 })
-      .then((dbThoughtData) => res.json(dbThoughtData))
-      .catch((err) => {
-        console.log(err);
-        res.sendStatus(400);
-      });
   },
 
   // Update thought
@@ -67,17 +65,25 @@ const thoughtController = {
   // Delete thought
   deleteThought({ params }, res) {
     Thought.findOneAndDelete({ params }, res)
-      .then((dbThoughtData) => {
-        if (!dbThoughtData) {
+      .then(({ _id, username }) => {
+        if (!_id) {
+          res.status(404).json({ message: "No Thought exists with this Id" });
+          return;
+        }
+        return User.findOneAndUpdate(
+          { _id: username },
+          { $pull: { thoughts: _id } },
+          { new: true }
+        );
+      })
+      .then((dbUserData) => {
+        if (!dbUserData) {
           res.status(404).json({ message: "Thought deleted." });
           return;
         }
-        res.json(dbThoughtData);
+        res.json(dbUserData);
       })
-      .catch((err) => {
-        console.log(err);
-        res.status(400).json(err);
-      });
+      .catch((err) => res.json(err));
   },
 
   // Add reaction
