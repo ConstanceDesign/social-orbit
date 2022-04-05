@@ -2,26 +2,23 @@ const { Thought, User } = require("../models");
 
 const thoughtController = {
   // Create thought
-  createThought(req, res) {
+  createThought({ params, body }, res) {
     Thought.create(body)
-      .then(({ _id, username }) => {
-        return User.findOneAndUpdate(
-          { _id: username },
-          { $push: { thought: _id } },
+      .then(({ _id }) => {
+        return Users.findOneAndUpdate(
+          { _id: params.userId },
+          { $push: { thoughts: _id } },
           { new: true }
         );
       })
-      .then((dbUserData) => {
-        if (!dbUserData) {
-          res.status(404).json({ message: "Not found." });
+      .then((dbThoughtData) => {
+        if (!dbThoughtData) {
+          res.status(404).json({ message: "No Thought exists with this Id." });
           return;
         }
-        res.json(dbUserData);
+        res.json(dbThoughtData);
       })
-      .catch((err) => {
-        console.log(err);
-        res.status(400).json(err);
-      });
+      .catch((err) => res.json(err));
   },
 
   // Get all Thoughts
