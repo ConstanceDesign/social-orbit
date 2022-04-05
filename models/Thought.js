@@ -57,6 +57,7 @@ const thoughtSchema = new Schema(
     },
     id: false,
     strict: false,
+    strictPopulate: false,
   }
 );
 
