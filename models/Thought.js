@@ -1,125 +1,76 @@
-const { Thought, User } = require("../models");
+const { Schema, model } = require("mongoose");
+const dateFormat = require("../utils/dateFormat");
 
-const thoughtController = {
-  // Create thought
-  createThought({ params, body }, res) {
-    Thought.create(body)
-      .then(({ _id }) => {
-        return User.findOneAndUpdate(
-          { _id: params.userId },
-          { $push: { thought: _id } },
-          { new: true }
-        );
-      })
-      .then((dbThoughtData) => {
-        if (!dbThoughtData) {
-          res
-            .status(404)
-            .json({ message: "No thoughts with this particular ID!" });
-          return;
-        }
-        res.json(dbThoughtData);
-      })
-      .catch((err) => res.json(err));
+// Reaction Schema
+const reactionSchema = new Schema(
+  {
+    reactionId: {
+      type: Schema.Types.ObjectId,
+      default: () => new Types.ObjectId(),
+    },
+    reactionBody: {
+      type: String,
+      required: true,
+      maxLength: 280,
+    },
+    username: {
+      type: String,
+      required: true,
+    },
+    createdAt: {
+      type: Date,
+      default: Date.now,
+      get: (createdAtVal) => dateFormat(createdAtVal),
+    },
   },
+  {
+    toJSON: {
+      virtuals: true,
+      getters: true,
+    },
+  }
+);
 
-  // Get all thoughts
-  getAllThought(req, res) {
-    Thought.find({})
-      .populate({ path: "reaction", select: "-__v" })
-      .select("-__v")
-      // .sort({_id: -1})
-      .then((dbThoughtData) => res.json(dbThoughtData))
-      .catch((err) => {
-        console.log(err);
-        res.status(500).json(err);
-      });
+// reactionSchema.virtual("ObjectId").get(function () {
+//   return this._id;
+// });
+
+// Thought Schema
+const thoughtSchema = new Schema(
+  {
+    thoughtText: {
+      type: String,
+      required: true,
+      maxLength: 280,
+    },
+    createdAt: {
+      type: Date,
+      default: Date.now,
+      get: (createdAtVal) => dateFormat(createdAtVal),
+    },
+    username: {
+      type: String,
+      required: true,
+    },
+    reactions: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Reaction",
+      },
+    ],
   },
+  {
+    toJSON: {
+      virtuals: true,
+      getters: true,
+    },
+  }
+);
 
-  // Get thought
-  getThoughtById({ params }, res) {
-    Thought.findOne({ _id: params.id })
-      .populate({ path: "reaction", select: "-__v" })
-      .select("-__v")
-      .then((dbThoughtData) => {
-        if (!dbThoughtData) {
-          res.status(404).json({ message: "No thought exists with this Id." });
-          return;
-        }
-        res.json(dbThoughtData);
-      })
-      .catch((err) => {
-        console.log(err);
-        res.sendStatus(400);
-      });
-  },
+thoughtSchema.virtual("reactionCount").get(function () {
+  return this.reactions.length;
+});
 
-  // Update thought
-  updateThought({ params, body }, res) {
-    Thought.findOneAndUpdate({ _id: params.id }, body, {
-      new: true,
-      runValidators: true,
-    })
-      .populate({ path: "reaction", select: "-__v" })
-      .select("-___v")
-      .then((dbThoughtData) => {
-        if (!dbThoughtData) {
-          res.status(404).json({ message: "No thought exists with this Id." });
-          return;
-        }
-        res.json(dbThoughtData);
-      })
-      .catch((err) => res.json(err));
-  },
+const Thought = model("Thought", thoughtSchema);
 
-  // Delete thought
-  deleteThought({ params }, res) {
-    Thought.findOneAndDelete({ _id: params.id })
-      .then((dbThoughtData) => {
-        if (!dbThoughtData) {
-          res.status(404).json({ message: "No thought exists with this Id." });
-          return;
-        }
-        res.json(dbThoughtData);
-      })
-      .catch((err) => res.status(400).json(err));
-  },
-
-  // Add reaction
-  addReaction({ params, body }, res) {
-    Thought.findOneAndUpdate(
-      { _id: params.thoughtId },
-      { $push: { reactions: body } },
-      { new: true, runValidators: true }
-    )
-      .populate({ path: "reaction", select: "-__v" })
-      .select("-__v")
-      .then((dbThoughtData) => {
-        if (!dbThoughtData) {
-          res.status(404).json({ message: "No thought exists with this Id." });
-          return;
-        }
-        res.json(dbThoughtData);
-      })
-      .catch((err) => res.status(400).json(err));
-  },
-
-  // Delete reaction
-  deleteReaction({ params }, res) {
-    Thought.findOneAndUpdate(
-      { _id: params.thoughtId },
-      { $pull: { reaction: { reactionId: params.reactionId } } },
-      { new: true }
-    )
-      .then((dbThoughtData) => {
-        if (!dbThoughtData) {
-          res.status(404).json({ message: "No thought exists with this Id." });
-          return;
-        }
-        res.json(dbThoughtData);
-      })
-      .catch((err) => res.status(400).json(err));
-  },
-};
-
-module.exports = thoughtController;
+module.exports = Thought;
