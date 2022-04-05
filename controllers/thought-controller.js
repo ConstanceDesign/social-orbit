@@ -57,7 +57,7 @@ const thoughtController = {
       new: true,
       runValidators: true,
     })
-      .populate({ path: "reaction", select: "__v" })
+      // .populate({ path: "reaction", select: "__v" })
       // .select("__v")
       .then((dbThoughtData) => {
         if (!dbThoughtData) {
