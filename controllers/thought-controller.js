@@ -1,22 +1,22 @@
 const { Thought, User } = require("../models");
 
 const thoughtController = {
-  // Create thought
+  // Create new thought
   createThought(req, res) {
     Thought.create(req.body)
-      .then(({ _id, username }) => {
+      .then(({ _id }) => {
         return User.findOneAndUpdate(
-          { _id: username },
+          { _id: params.userId },
           { $push: { thought: _id } },
           { new: true }
         );
       })
-      .then((dbUserData) => {
-        if (!dbUserData) {
-          res.status(404).json({ message: "No Thought exists with this Id." });
+      .then((dbThoughtData) => {
+        if (!dbThoughtData) {
+          res.status(404).json({ message: "No Thoughts exist with this Id." });
           return;
         }
-        res.json(dbUserData);
+        res.json(dbThoughtData);
       })
       .catch((err) => {
         console.log(err);
@@ -89,37 +89,34 @@ const thoughtController = {
   },
 
   // Add reaction
-  addReaction({ params }, res) {
+  addReaction({ params, body }, res) {
     Thought.findOneAndUpdate(
-      { _id: params.id },
-      { $push: { reaction: params.reactionId } },
+      { _id: params.thoughtId },
+      { $push: { reaction: body } },
       { new: true, runValidators: true }
     )
       .populate({ path: "reaction", select: "-__v" })
       .select("-__v")
       .then((dbThoughtData) => {
         if (!dbThoughtData) {
-          res.status(404).json({ message: "No Thought exists with this Id." });
+          res.status(404).json({ message: "No Thoughts exist with this Id." });
           return;
         }
         res.json(dbThoughtData);
       })
-      .catch((err) => {
-        console.log(err);
-        res.status(400).json(err);
-      });
+      .catch((err) => res.status(400).json(err));
   },
 
-  // Delete reaction
+  // Delete reaction by id
   deleteReaction({ params }, res) {
     Thought.findOneAndUpdate(
-      { _id: params.id },
-      { $pull: { reaction: params.reactionId } },
+      { _id: params.thoughtId },
+      { $pull: { reaction: { reactionId: params.reactionId } } },
       { new: true }
     )
       .then((dbThoughtData) => {
         if (!dbThoughtData) {
-          res.status(404).json({ message: "Reaction deleted." });
+          res.status(404).json({ message: "No Thoughts exist with this Id." });
           return;
         }
         res.json(dbThoughtData);
