@@ -82,20 +82,24 @@ const thoughtController = {
   },
 
   // Add reaction
-  addReaction({ body, params }, res) {
-    Thought.findOneAndUpdate(
-      { _id: params.id },
+  addReaction({ params, body }, res) {
+    Thoughts.findOneAndUpdate(
+      { _id: params.thoughtId },
       { $push: { reaction: body } },
       { new: true, runValidators: true }
     )
-      .then((dbThoughtData) => {
-        if (!dbThoughtData) {
-          res.status(404).json({ message: "Thought not found" });
+      .populate({ path: "reaction", select: "-__v" })
+      .select("-__v")
+      .then((dbThoughtsData) => {
+        if (!dbThoughtsData) {
+          res
+            .status(404)
+            .json({ message: "No thoughts with this particular ID!" });
           return;
         }
-        res.json(dbThoughtData);
+        res.json(dbThoughtsData);
       })
-      .catch((err) => res.json(err));
+      .catch((err) => res.status(400).json(err));
   },
   // addReaction({ body, params }, res) {
   //   Thought.findOneAndUpdate(
