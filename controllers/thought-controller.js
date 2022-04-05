@@ -5,19 +5,19 @@ const thoughtController = {
   createThought({ params, body }, res) {
     // console.log(body);
     Thought.create(body)
-      .then(({ _id, username }) => {
+      .then(({ _id }) => {
         return User.findOneAndUpdate(
-          { _id: username },
+          { _id: params.userId },
           { $push: { thought: _id } },
           { new: true }
         );
       })
-      .then((dbUserData) => {
-        if (!dbUserData) {
+      .then((dbThoughtData) => {
+        if (!dbThoughtData) {
           res.status(404).json({ message: "No Thought exists with this Id." });
           return;
         }
-        res.json(dbUserData);
+        res.json(dbThoughtData);
       })
       .catch((err) => {
         console.log(err);
