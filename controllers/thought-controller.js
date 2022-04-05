@@ -84,7 +84,7 @@ const thoughtController = {
   // Add reaction
   addReaction({ params, body }, res) {
     Thought.findOneAndUpdate(
-      { _id: params.id },
+      { _id: params.thoughtId },
       { $addToSet: { reaction: body } },
       { new: true, runValidators: true }
     )
@@ -101,7 +101,7 @@ const thoughtController = {
   // Delete reaction
   deleteReaction({ params }, res) {
     Thought.findOneAndUpdate(
-      { _id: params.id },
+      { _id: params.thoughtId },
       { $pull: { reaction: { reactionId: params.reactionId } } },
       { new: true, runValidators: true }
     )
