@@ -35,13 +35,12 @@ const thoughtController = {
 
   // Get thought by Id
   getThoughtById({ params }, res) {
-    Thought.findOne({ thought: _id })
-      // .populate({
-      //   path: "reaction",
-      //   select: "__v",
-      // })
-      // .sort({ _id: -1 })
-      .exec()
+    Thought.findOne({ _id: params.id })
+      .populate({
+        path: "reaction",
+        select: "__v",
+      })
+      .sort({ _id: -1 })
       .then((dbThoughtData) => res.json(dbThoughtData))
       .catch((err) => {
         console.log(err);
