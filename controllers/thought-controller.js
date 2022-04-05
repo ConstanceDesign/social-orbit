@@ -82,21 +82,21 @@ const thoughtController = {
   },
 
   // Add reaction
-  // addReaction({ params, body }, res) {
-  //   Comment.findOneAndUpdate(
-  //     { _id: params.thoughtId },
-  //     { $push: { reaction: body } },
-  //     { new: true }
-  //   )
-  //     .then((dbThoughtData) => {
-  //       if (!dbThoughtData) {
-  //         res.status(404).json({ message: "No Thought exists with this Id." });
-  //         return;
-  //       }
-  //       res.json(dbThoughtData);
-  //     })
-  //     .catch((err) => res.json(err));
-  // },
+  addReaction({ params, body }, res) {
+    Comment.findOneAndUpdate(
+      { _id: params.thoughtId },
+      { $push: { reaction: body } },
+      { new: true }
+    )
+      .then((dbThoughtData) => {
+        if (!dbThoughtData) {
+          res.status(404).json({ message: "No Thought exists with this Id." });
+          return;
+        }
+        res.json(dbThoughtData);
+      })
+      .catch((err) => res.json(err));
+  },
 
   //2nd
   // addReaction({ params, body }, res) {
@@ -116,26 +116,6 @@ const thoughtController = {
   //     })
   //     .catch((err) => res.status(400).json(err));
   // },
-
-  //1st
-  addReaction({ body, params }, res) {
-    Thought.findOneAndUpdate(
-      { _id: params.id },
-      { $push: { reaction: body } },
-      { new: true, runValidators: true }
-    )
-      .then((dbThoughtData) => {
-        if (!dbThoughtData) {
-          res.status(404).json({ message: "No Thought exists with this Id." });
-          return;
-        }
-        res.json(dbThoughtData);
-      })
-      .catch((err) => {
-        console.log(err);
-        res.status(400).json(err);
-      });
-  },
 
   // Delete reaction
   deleteReaction({ params }, res) {
