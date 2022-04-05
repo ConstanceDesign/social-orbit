@@ -25,15 +25,10 @@ const reactionSchema = new Schema(
   },
   {
     toJSON: {
-      // virtuals: true,
       getters: true,
     },
   }
 );
-
-// reactionSchema.virtual("ObjectId").get(function () {
-//   return this._id;
-// });
 
 // Thought Schema
 const thoughtSchema = new Schema(
@@ -41,6 +36,7 @@ const thoughtSchema = new Schema(
     thoughtText: {
       type: String,
       required: true,
+      minlength: 1,
       maxLength: 280,
     },
     createdAt: {
@@ -52,23 +48,19 @@ const thoughtSchema = new Schema(
       type: String,
       required: true,
     },
-    reactions: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "Reaction",
-      },
-    ],
+    reactions: [reactionSchema],
   },
   {
     toJSON: {
-      // virtuals: true,
+      virtuals: true,
       getters: true,
     },
+    id: false,
   }
 );
 
 thoughtSchema.virtual("reactionCount").get(function () {
-  return this.reactions.length;
+  return this.reaction.length;
 });
 
 const Thought = model("Thought", thoughtSchema);
