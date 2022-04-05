@@ -57,8 +57,6 @@ const thoughtController = {
       new: true,
       runValidators: true,
     })
-      .populate({ path: "reaction", select: "-__v" })
-      .select("-__v")
       .then((dbThoughtData) => {
         if (!dbThoughtData) {
           res.status(404).json({ message: "No Thought exists with this Id." });
