@@ -67,7 +67,7 @@ const thoughtController = {
 
   // Delete thought
   deleteThought({ params }, res) {
-    Thought.findOneAndDelete({ params }, res)
+    Thought.findOneAndDelete({ _id: params.id })
       .then((dbThoughtData) => {
         if (!dbThoughtData) {
           res.status(404).json({ message: "Thought deleted." });
