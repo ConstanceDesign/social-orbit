@@ -13,7 +13,7 @@ const reactionSchema = new Schema(
       required: true,
       maxLength: 280,
     },
-    username: {
+    friend: {
       type: String,
       required: true,
     },

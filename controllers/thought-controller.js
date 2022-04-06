@@ -98,17 +98,35 @@ const thoughtController = {
   //     .catch((err) => res.json(err));
   // },
 
-  addReaction({ params, body }, res) {
-    Reaction.create(body)
-      .then(({ _id }) => {
-        return Thought.findOneAndUpdate(
-          { _id: params.userId },
-          { $push: { reaction: _id } },
-          { new: true }
-        );
-      })
-      .then((dbThoughtData) => {
-        if (!dbThoughtData) {
+  // addReaction({ params, body }, res) {
+  //   Reaction.create(body)
+  //     .then(({ _id }) => {
+  //       return Thought.findOneAndUpdate(
+  //         { _id: params.userId },
+  //         { $push: { reaction: _id } },
+  //         { new: true }
+  //       );
+  //     })
+  //     .then((dbThoughtData) => {
+  //       if (!dbThoughtData) {
+  //         res.status(404).json({ message: "No Thought exists with this Id." });
+  //         return;
+  //       }
+  //       res.json(dbThoughtData);
+  //     })
+  //     .catch((err) => res.json(err));
+  // },
+
+  addReaction({ params }, res) {
+    Thought.findOneAndUpdate(
+      { _id: params.id },
+      { $push: { reaction: params.reactionId } },
+      { new: true }
+    )
+      .populate({ path: "reaction", select: "-__v" })
+      .select("-__v")
+      .then((dbUserData) => {
+        if (!dbUserData) {
           res.status(404).json({ message: "No Thought exists with this Id." });
           return;
         }
