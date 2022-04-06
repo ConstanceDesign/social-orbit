@@ -37,7 +37,7 @@ const userSchema = new Schema(
 );
 
 userSchema.virtual("friendCount").get(function () {
-  return this.friend.length;
+  return this.friend.length || "No friend found.";
 });
 
 const User = model("User", userSchema);

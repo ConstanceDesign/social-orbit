@@ -82,12 +82,31 @@ const thoughtController = {
   },
 
   // Add reaction
+  // addReaction({ params, body }, res) {
+  //   Thought.findOneAndUpdate(
+  //     { _id: params.id },
+  //     { $push: { reactions: body } },
+  //     { new: true, runValidators: true }
+  //   )
+  //     .then((dbThoughtData) => {
+  //       if (!dbThoughtData) {
+  //         res.status(404).json({ message: "No Thought exists with this Id." });
+  //         return;
+  //       }
+  //       res.json(dbThoughtData);
+  //     })
+  //     .catch((err) => res.json(err));
+  // },
+
   addReaction({ params, body }, res) {
-    Thought.findOneAndUpdate(
-      { _id: params.id },
-      { $push: { reactions: body } },
-      { new: true, runValidators: true }
-    )
+    Reaction.create(body)
+      .then(({ _id }) => {
+        return Thought.findOneAndUpdate(
+          { _id: params.userId },
+          { $push: { reaction: _id } },
+          { new: true }
+        );
+      })
       .then((dbThoughtData) => {
         if (!dbThoughtData) {
           res.status(404).json({ message: "No Thought exists with this Id." });
