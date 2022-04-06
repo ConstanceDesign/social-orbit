@@ -117,12 +117,15 @@ const thoughtController = {
   //     .catch((err) => res.json(err));
   // },
 
-  addReaction({ params }, res) {
-    Thought.findOneAndUpdate(
-      { _id: params.id },
-      { $push: { reaction: params.reactionId } },
-      { new: true }
-    )
+  addReaction({ params, body }, res) {
+    Reaction.create(body)
+      .then(({ _id }) => {
+        return Thought.findOneAndUpdate(
+          { _id: params.id },
+          { $push: { reaction: params.reactionId } },
+          { new: true }
+        );
+      })
       .populate({ path: "reaction", select: "-__v" })
       .select("-__v")
       .then((dbUserData) => {
