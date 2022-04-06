@@ -81,26 +81,43 @@ const thoughtController = {
       });
   },
 
-  addReaction({ params, body }, res) {
-    Reaction.create(body)
-      .then(({ _id }) => {
-        return Thought.findOneAndUpdate(
-          { _id: params.id },
-          { $push: { reaction: params.reactionId } },
-          { new: true }
-        );
-      })
-      .populate({ path: "reaction", select: "-__v" })
-      .select("-__v")
-      .then((dbUserData) => {
-        if (!dbUserData) {
-          res.status(404).json({ message: "No Thought exists with this Id." });
-          return;
+  addReaction(req, res) {
+    Thought.findByIdAndUpdate(
+      { _id: req.params.id },
+      { $addToSet: { reaction: req.body } },
+      { new: true, runValidators: true }
+    )
+      .then((dbThoughtData) => {
+        if (!dbThoughtData) {
+          return res
+            .status(404)
+            .json({ message: "No Thought exists with this Id." });
         }
         res.json(dbThoughtData);
       })
       .catch((err) => res.json(err));
   },
+
+  // addReaction({ params, body }, res) {
+  //   Reaction.create(body)
+  //     .then(({ _id }) => {
+  //       return Thought.findOneAndUpdate(
+  //         { _id: params.id },
+  //         { $push: { reaction: params.reactionId } },
+  //         { new: true }
+  //       );
+  //     })
+  //     .populate({ path: "reaction", select: "-__v" })
+  //     .select("-__v")
+  //     .then((dbUserData) => {
+  //       if (!dbUserData) {
+  //         res.status(404).json({ message: "No Thought exists with this Id." });
+  //         return;
+  //       }
+  //       res.json(dbThoughtData);
+  //     })
+  //     .catch((err) => res.json(err));
+  // },
 
   // Delete reaction
   deleteReaction({ params }, res) {
