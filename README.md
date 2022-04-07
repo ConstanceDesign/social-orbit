@@ -14,7 +14,6 @@
 - [Testing](#test)
 - [Visuals](#visuals)
 - [GitHub Link](#github)
-- [Deployment Link](#deployment)
 - [Additional information](#date,#author,#email,#thanks)
 
 ## Project Status
@@ -56,10 +55,6 @@ Coming soon!
 ## GitHub Link
 
 [SnugglesMcGee](https://github.com/SnugglesMcGee)
-
-## Deployment Link
-
-tbd
 
 ## Additional Information
 
