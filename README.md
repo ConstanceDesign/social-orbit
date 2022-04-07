@@ -50,11 +50,11 @@ To run tests, get the source code at git clone https://github.com/SnugglesMcGee/
 
 ## Visuals
 
-[User](https://user-images.githubusercontent.com/93297081/162122254-4324842a-4db4-47a9-80b6-9a57cdcd5a48.mp4)
+[User](https://user-images.githubusercontent.com/93297081/162122458-913470d7-064f-4468-8938-8677ae57392a.mp4)
 
-[Friend](https://user-images.githubusercontent.com/93297081/162120947-02607246-f5b9-4210-8865-b1b52edba2d1.mp4)
+[Friend](https://user-images.githubusercontent.com/93297081/162122546-2885ca22-c50f-41e8-9864-6f66e2f91cbc.mp4)
 
-[Thought](https://user-images.githubusercontent.com/93297081/162119853-7c96d65d-a8ab-4bc3-a68b-f17f612173fe.mp4)
+[Thought](https://user-images.githubusercontent.com/93297081/162123125-f7d8045c-dfdc-4070-aceb-545835339cc8.mp4)
 
 [Reaction](https://user-images.githubusercontent.com/93297081/162118565-8ef5755a-5019-4f08-9821-7a55f02fce51.mp4)
 
