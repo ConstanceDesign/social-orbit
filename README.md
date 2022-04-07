@@ -52,7 +52,7 @@ To run tests, get the source code at git clone https://github.com/SnugglesMcGee/
 
 User
 
-Friend
+[Friend](https://user-images.githubusercontent.com/93297081/162120947-02607246-f5b9-4210-8865-b1b52edba2d1.mp4)
 
 [Thought](https://user-images.githubusercontent.com/93297081/162119853-7c96d65d-a8ab-4bc3-a68b-f17f612173fe.mp4)
 
