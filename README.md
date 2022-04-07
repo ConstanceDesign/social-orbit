@@ -50,7 +50,7 @@ To run tests, get the source code at git clone https://github.com/SnugglesMcGee/
 
 ## Visuals
 
-User
+[User](https://user-images.githubusercontent.com/93297081/162122254-4324842a-4db4-47a9-80b6-9a57cdcd5a48.mp4)
 
 [Friend](https://user-images.githubusercontent.com/93297081/162120947-02607246-f5b9-4210-8865-b1b52edba2d1.mp4)
 
