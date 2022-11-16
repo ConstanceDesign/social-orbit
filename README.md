@@ -60,7 +60,7 @@ To run tests, get the source code at git clone https://github.com/SnugglesMcGee/
 
 ## GitHub Link
 
-[SnugglesMcGee](https://github.com/SnugglesMcGee)
+[ConstanceDesign](https://github.com/ConstanceDesign)
 
 ## Additional Information
 
