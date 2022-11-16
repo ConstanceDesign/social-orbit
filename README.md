@@ -46,7 +46,7 @@ This app is open to contributions. Open up an Issue with suggested improvements 
 
 ## Testing
 
-To run tests, get the source code at git clone https://github.com/SnugglesMcGee/social-orbit and install dependencies. Test routes in Insomnia.
+To run tests, get the source code at git clone https://github.com/ConstanceDesign/social-orbit and install dependencies. Test routes in Insomnia.
 
 ## Visuals
 
